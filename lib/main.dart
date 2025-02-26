@@ -1,206 +1,146 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(CharacterQuizApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CharacterQuizApp extends StatelessWidget {
+  const CharacterQuizApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '¿Qué Personaje Eres?',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const QuizScreen(),
+      home: QuizScreen(),
     );
   }
+}
+
+class Question {
+  final String text;
+  final List<String> options;
+  final Map<String, int> scores;
+
+  Question({required this.text, required this.options, required this.scores});
 }
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
 
   @override
-  State<QuizScreen> createState() => _QuizScreenState();
+  _QuizScreenState createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  int _preguntaActual = 0;
-  List<String> _respuestas = [
-    '',
-    '',
-    '',
-    '',
-    '',
-  ]; // Lista para guardar las respuestas del usuario
-  String _personajeResultante = '';
+  int _currentQuestionIndex = 0;
+  final Map<String, int> _totalScores = {};
+  String? _selectedAnswer;
 
-  // Colección: Lista de Mapas para las preguntas y respuestas
-  final List<Map<String, dynamic>> _preguntas = [
-    {
-      'pregunta': '¿Cuál es tu color favorito?',
-      'respuestas': ['Rojo', 'Azul', 'Verde', 'Amarillo'],
-    },
-    {
-      'pregunta': '¿Qué tipo de aventura prefieres?',
-      'respuestas': ['Misterio', 'Acción', 'Comedia', 'Romance'],
-    },
-    {
-      'pregunta': '¿Cuál es tu mayor cualidad?',
-      'respuestas': ['Inteligencia', 'Valentía', 'Humor', 'Lealtad'],
-    },
-    {
-      'pregunta': '¿Qué elemento te representa mejor?',
-      'respuestas': ['Fuego', 'Agua', 'Tierra', 'Aire'],
-    },
-    {
-      'pregunta': '¿Cuál es tu mayor defecto?',
-      'respuestas': ['Impaciencia', 'Indecisión', 'Sarcasmo', 'Terquedad'],
-    },
+  final List<Question> _questions = [
+    Question(
+      text: "¿Cómo prefieres pasar tu tiempo libre?",
+      options: ["Leyendo", "Ejercicio", "Videojuegos", "Socializar"],
+      scores: {"Sherlock": 5, "Thor": 3, "Mario": 4, "Phoebe": 2},
+    ),
+    Question(
+      text: "Tu comida favorita es...",
+      options: ["Pizza", "Asgardian Feast", "Sushi", "Café"],
+      scores: {"Mario": 5, "Thor": 4, "Sherlock": 3, "Phoebe": 2},
+    ),
+    // Agregar 3 preguntas más con misma estructura
   ];
 
-  // Colección: Mapa para relacionar respuestas (simplificado) con personajes
-  final Map<String, String> _personajes = {
-    'RojoMisterioInteligenciaFuegoImpaciencia': 'Sherlock Holmes',
-    'AzulAcciónValentíaAguaIndecisión': 'Indiana Jones',
-    'VerdeComediaHumorTierraSarcasmo': 'Deadpool',
-    'AmarilloRomanceLealtadAireTerquedad': 'Princesa Leia',
-  };
-
-  void _responderPregunta(int indexRespuesta) {
+  void _answerQuestion(String selectedOption) {
     setState(() {
-      _respuestas[_preguntaActual] =
-          _preguntas[_preguntaActual]['respuestas'][indexRespuesta];
-      if (_preguntaActual < _preguntas.length - 1) {
-        _preguntaActual++;
-      } else {
-        _determinarPersonaje();
+      _selectedAnswer = selectedOption;
+      _questions[_currentQuestionIndex].scores.forEach((character, score) {
+        _totalScores.update(
+          character,
+          (value) => value + score,
+          ifAbsent: () => score,
+        );
+      });
+    });
+  }
+
+  void _nextQuestion() {
+    if (_currentQuestionIndex < _questions.length - 1) {
+      setState(() {
+        _currentQuestionIndex++;
+        _selectedAnswer = null;
+      });
+    } else {
+      _showResult();
+    }
+  }
+
+  void _showResult() {
+    String result = "Phoebe"; // Default
+    int maxScore = 0;
+
+    _totalScores.forEach((character, score) {
+      if (score > maxScore) {
+        maxScore = score;
+        result = character;
       }
     });
+
+    showDialog(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: Text("¡Eres... $result!"),
+            content: Text(_getCharacterDescription(result)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+    );
   }
 
-  void _determinarPersonaje() {
-    // Operadores de Concatenación y acceso a Map
-    String claveRespuestas = '';
-    for (String respuesta in _respuestas) {
-      // Estructura Iterativa: for loop
-      claveRespuestas += respuesta;
-    }
-    // Operador de acceso a Map con clave
-    _personajeResultante =
-        _personajes[claveRespuestas] ??
-        'Personaje Desconocido'; // Operador ?? (if null)
-  }
-
-  void _resetQuiz() {
-    setState(() {
-      _preguntaActual = 0;
-      _respuestas = ['', '', '', '', ''];
-      _personajeResultante = '';
-    });
+  String _getCharacterDescription(String character) {
+    const descriptions = {
+      "Sherlock": "Genio observador con habilidades deductivas sobresalientes",
+      "Thor": "Poderoso guerrero con corazón noble y sentido del humor único",
+      "Mario": "Héroe perseverante que siempre salva el día con entusiasmo",
+      "Phoebe":
+          "Espíritu libre con una visión única del mundo y gran creatividad",
+    };
+    return descriptions[character] ??
+        "Personaje único con características especiales";
   }
 
   @override
   Widget build(BuildContext context) {
+    final currentQuestion = _questions[_currentQuestionIndex];
+
     return Scaffold(
-      appBar: AppBar(title: const Text('¿Qué Personaje Eres?')),
-      body:
-          _preguntaActual < _preguntas.length
-              ? _buildQuizPregunta()
-              : _buildResultado(),
-    );
-  }
-
-  Widget _buildQuizPregunta() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            // Acceso a datos de la colección (lista de mapas)
-            _preguntas[_preguntaActual]['pregunta'] as String,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+      appBar: AppBar(title: Text("Pregunta ${_currentQuestionIndex + 1}")),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(currentQuestion.text, style: TextStyle(fontSize: 24)),
           ),
-          const SizedBox(height: 20),
-          // Estructura Iterativa: for loop para las opciones de respuesta
-          ...(_preguntas[_preguntaActual]['respuestas'] as List<String>).map((
-            respuesta,
-          ) {
-            int indexRespuesta = (_preguntas[_preguntaActual]['respuestas']
-                    as List<String>)
-                .indexOf(respuesta);
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ElevatedButton(
-                onPressed:
-                    () => _responderPregunta(
-                      indexRespuesta,
-                    ), // Operador de Asignación y Llamada a función
-                child: Text(respuesta),
-              ),
-            );
-          }),
+          ...currentQuestion.options.map(
+            (option) => RadioListTile<String>(
+              title: Text(option),
+              value: option,
+              groupValue: _selectedAnswer,
+              onChanged: (value) => _answerQuestion(value!),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: _selectedAnswer != null ? _nextQuestion : null,
+            child: Text(
+              _currentQuestionIndex == _questions.length - 1
+                  ? "Ver Resultado"
+                  : "Siguiente",
+            ),
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildResultado() {
-    String descripcionPersonaje = '';
-    String nombrePersonaje = _personajeResultante;
-
-    if (nombrePersonaje == 'Sherlock Holmes') {
-      descripcionPersonaje = 'Detective brillante y deductivo.';
-      // [Image of Sherlock Holmes]
-    } else if (nombrePersonaje == 'Indiana Jones') {
-      descripcionPersonaje = 'Arqueólogo aventurero en busca de reliquias.';
-      // [Image of Indiana Jones]
-    } else if (nombrePersonaje == 'Deadpool') {
-      descripcionPersonaje = 'Antihéroe sarcástico y regenerativo.';
-      // [Image of Deadpool]
-    } else if (nombrePersonaje == 'Princesa Leia') {
-      descripcionPersonaje = 'Líder rebelde y valiente.';
-      // [Image of Princesa Leia]
-    } else {
-      descripcionPersonaje =
-          'No pudimos determinar tu personaje exactamente, ¡quizás eres único!';
-    }
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '¡Tu personaje es!',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              nombrePersonaje,
-              style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              descripcionPersonaje,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: _resetQuiz,
-              child: const Text('Volver a Intentar'),
-            ),
-          ],
-        ),
       ),
     );
   }
