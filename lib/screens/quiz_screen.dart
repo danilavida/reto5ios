@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reto5ios/data/questions_repository.dart';
-import 'package:reto5ios/main.dart';
 import 'package:reto5ios/models/question.dart';
 import 'package:reto5ios/widgets/option_card.dart';
 import 'package:reto5ios/widgets/result_dialog.dart';

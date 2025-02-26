@@ -1,4 +1,3 @@
-import 'package:reto5ios/main.dart';
 import 'package:reto5ios/models/character.dart';
 import 'package:reto5ios/models/question.dart';
 
