@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reto5ios/data/questions_repository.dart';
 import 'package:reto5ios/models/character.dart';
 import 'package:reto5ios/screens/welcome_screen.dart';
 
