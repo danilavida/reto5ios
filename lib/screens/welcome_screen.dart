@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
 
               Image.asset(
                 'assets/images/star_wars_title.jpg',
-                height: 130, // Ajusta esta altura según necesites
+                height: 130,
                 fit: BoxFit.contain,
               ),
               const SizedBox(height: 40),
