@@ -8,28 +8,29 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/star_wars_title.jpg'),
-            fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.black, Colors.black.withBlue(30)],
           ),
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black.withAlpha((0.3 * 255).toInt()),
-                Colors.black.withAlpha((0.7 * 255).toInt()),
-                Colors.black.withAlpha((0.9 * 255).toInt()),
-              ],
-            ),
-          ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Spacer(),
+              const SizedBox(height: 60),
+
+              Image.asset(
+                'assets/images/star_wars_title.jpg',
+                height: 130, // Ajusta esta altura según necesites
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 40),
               const Text(
                 "¿QUÉ PERSONAJE DE STAR WARS ERES?",
                 style: TextStyle(
@@ -39,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               const Text(
                 "Responde 5 preguntas para descubrir\ntu verdadero camino en la galaxia",
                 style: TextStyle(color: Colors.white, fontSize: 18),
@@ -66,7 +67,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 child: const Text("COMENZAR"),
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 40),
             ],
           ),
         ),
