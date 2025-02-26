@@ -1,11 +1,11 @@
 class Character {
   final String name;
-  final String descripction;
+  final String description;
   final String imagePath;
 
   const Character({
     required this.name,
-    required this.descripction,
+    required this.description,
     required this.imagePath,
   });
 }
