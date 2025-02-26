@@ -20,9 +20,9 @@ class WelcomeScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.7),
-                Colors.black.withOpacity(0.9),
+                Colors.black.withAlpha((0.3 * 255).toInt()),
+                Colors.black.withAlpha((0.7 * 255).toInt()),
+                Colors.black.withAlpha((0.9 * 255).toInt()),
               ],
             ),
           ),

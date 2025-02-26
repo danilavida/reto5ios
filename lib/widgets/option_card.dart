@@ -21,11 +21,14 @@ class OptionCard extends StatelessWidget {
         decoration: BoxDecoration(
           color:
               isSelected
-                  ? Colors.amber.withOpacity(0.3)
-                  : Colors.black.withOpacity(0.6),
+                  ? Colors.amber.withAlpha((0.3 * 255).toInt())
+                  : Colors.black.withAlpha((0.6 * 255).toInt()),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? Colors.amber : Colors.grey.withOpacity(0.3),
+            color:
+                isSelected
+                    ? Colors.amber
+                    : Colors.grey.withAlpha((0.3 * 255).toInt()),
             width: isSelected ? 2.0 : 1.0,
           ),
         ),

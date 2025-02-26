@@ -7,7 +7,7 @@ class QuestionsRepository {
       name: 'Sith',
       description:
           'Maestro del lado oscuro, busca poder absoluto mediante la pasión y la fuerza. Tu ambición y determinación te hacen un líder formidable, aunque a veces puedes ser implacable en la búsqueda de tus objetivos.',
-      imagePath: '/assets/images/sith.png',
+      imagePath: 'assets/images/sith.png',
     ),
     Character(
       name: 'Jedi',
