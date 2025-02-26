@@ -7,13 +7,13 @@ class QuestionsRepository {
       name: 'Sith',
       description:
           'Maestro del lado oscuro, busca poder absoluto mediante la pasión y la fuerza',
-      imagePath: 'assets/sith.png',
+      imagePath: '/assets/images/sith.png',
     ),
     Character(
       name: 'Jedi',
       description:
           'Guardián de la paz, utiliza la Fuerza para conocimiento y defensa',
-      imagePath: 'assets/jedi.png',
+      imagePath: '/assets/images/jedi.png',
     ),
     Character(
       name: 'Mandaloriano',
