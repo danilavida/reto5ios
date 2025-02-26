@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'screens/quiz_screen.dart';
+import 'package:flutter/services.dart';
+import 'screens/welcome_screen.dart';
 
-void main() => runApp(const StarWarsQuizApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  runApp(const StarWarsQuizApp());
+}
 
 class StarWarsQuizApp extends StatelessWidget {
   const StarWarsQuizApp({super.key});
@@ -15,6 +23,7 @@ class StarWarsQuizApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
           elevation: 0,
+          centerTitle: true,
           titleTextStyle: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -24,8 +33,16 @@ class StarWarsQuizApp extends StatelessWidget {
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.white, fontSize: 18),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
       ),
-      home: const QuizScreen(),
+      home: const WelcomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

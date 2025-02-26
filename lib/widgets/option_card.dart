@@ -14,9 +14,43 @@ class OptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: isSelected ? Colors.blueGrey[800] : null,
-      child: ListTile(title: Text(option), onTap: onTap),
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color:
+              isSelected
+                  ? Colors.amber.withOpacity(0.3)
+                  : Colors.black.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? Colors.amber : Colors.grey.withOpacity(0.3),
+            width: isSelected ? 2.0 : 1.0,
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        child: Row(
+          children: [
+            Icon(
+              isSelected ? Icons.check_circle : Icons.circle_outlined,
+              color: isSelected ? Colors.amber : Colors.grey,
+              size: 28,
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Text(
+                option,
+                style: TextStyle(
+                  color: isSelected ? Colors.amber : Colors.white,
+                  fontSize: 18,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
