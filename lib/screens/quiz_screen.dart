@@ -118,7 +118,7 @@ class _QuizScreenState extends State<QuizScreen>
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/star_wars_bg.jpg'),
+            image: AssetImage('assets/images/bg_stars.jpg'),
             fit: BoxFit.cover,
             opacity: 0.7,
           ),

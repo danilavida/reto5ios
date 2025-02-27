@@ -13,25 +13,25 @@ class QuestionsRepository {
       name: 'Jedi',
       description:
           'Guardián de la paz, utilizas la Fuerza para conocimiento y defensa. Tu sabiduría y paciencia te permiten ver más allá de lo evidente, siempre buscando soluciones pacíficas a los conflictos.',
-      imagePath: 'assets/images/jedi.png',
+      imagePath: 'assets/images/jedi.jpg',
     ),
     Character(
       name: 'Mandaloriano',
       description:
           'Guerrero honorable, sigues estrictamente el código de la armadura. Valoras la lealtad por encima de todo y nunca rompes una promesa. Tu pragmatismo y habilidades de combate te convierten en un aliado valioso.',
-      imagePath: 'assets/images/mandalorian.png',
+      imagePath: 'assets/images/mandalorian.jpg',
     ),
     Character(
       name: 'Soldado República',
       description:
           'Soldado disciplinado que lucha por la democracia galáctica. Crees en el orden y la justicia, siguiendo un código moral estricto. Tu dedicación a la causa común te hace un pilar fundamental para la sociedad.',
-      imagePath: 'assets/images/republic.png',
+      imagePath: 'assets/images/republic.jpg',
     ),
     Character(
       name: 'Soldado Imperio',
       description:
           'Leal ejecutor de la voluntad del Imperio Galáctico. Valoras el orden y la eficiencia por encima de todo, dispuesto a hacer sacrificios por un bien mayor. Tu disciplina y determinación son admirables.',
-      imagePath: 'assets/images/empire.png',
+      imagePath: 'assets/images/empire.jpg',
     ),
   ];
 
